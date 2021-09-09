@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -11,14 +12,26 @@ import javax.persistence.*;
 public class Appointment {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="appointment_id")
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name="doctor_id", nullable=false ,insertable = false,updatable = false)
     private Doctor doctor;
 
+
+    private LocalDateTime dateAndTime;
+
+    public Appointment(Patient patient, Doctor doctor, LocalDateTime dateAndTime) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.dateAndTime = dateAndTime;
+    }
+
+
+    public Appointment() {
+
+    }
 }

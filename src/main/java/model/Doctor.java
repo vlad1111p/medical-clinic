@@ -7,45 +7,39 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Getter
 @Setter
-public class Patient {
+@Getter
+public class Doctor {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String patientName;
+    private String doctorName;
 
     private String surName;
-
-    private String CNP;
-
-    private int age;
 
     private String email;
 
     private String password;
 
-    @OneToMany(mappedBy="patient", cascade=CascadeType.ALL,orphanRemoval = true)
-    private Set<Appointment> appointmentPatient;
+    @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL,orphanRemoval = true)
+    private Set<Appointment> appointmentDoctor;
 
-
+    @Enumerated(EnumType.STRING)
+    private Specialization specialization;
 
     @ManyToOne
-
     private MedicalClinic medicalClinic;
 
-
-    public Patient(String patientName, String surName, String CNP, int age, String email, String password) {
-        this.patientName = patientName;
+    public Doctor(String doctorName, String surName, String email, String password, Specialization specialization) {
+        this.doctorName = doctorName;
         this.surName = surName;
-        this.CNP = CNP;
-        this.age = age;
         this.email = email;
         this.password = password;
+        this.specialization = specialization;
     }
 
-    public Patient() {
+    public Doctor() {
     }
 }

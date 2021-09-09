@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="Medical_Clinic")
+
 public class MedicalClinic {
     @Id
     @Column(name = "id", nullable = false)
@@ -23,8 +23,11 @@ public class MedicalClinic {
 
     private String email;
 
-    @OneToMany(mappedBy="medicalclinic", cascade=CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy="medicalClinic", cascade=CascadeType.ALL,orphanRemoval = true)
     private Set<Patient> patient;
+
+    @OneToMany(mappedBy="medicalClinic", cascade=CascadeType.ALL,orphanRemoval = true)
+    private Set<Doctor> doctor;
 
     public MedicalClinic(String clinicName, String adrress, String phone, String email) {
         this.clinicName = clinicName;
