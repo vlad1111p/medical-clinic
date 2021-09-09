@@ -30,6 +30,7 @@ public class HibernateUtil {
 
                 configuration.setProperties(settings);
 
+
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
@@ -39,5 +40,4 @@ public class HibernateUtil {
         }
         return sessionFactory;
     }
-
 }

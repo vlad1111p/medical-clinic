@@ -3,6 +3,8 @@ package model;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -20,6 +22,9 @@ public class MedicalClinic {
     private String phone;
 
     private String email;
+
+    @OneToMany(mappedBy="medicalclinic", cascade=CascadeType.ALL,orphanRemoval = true)
+    private Set<Patient> patient;
 
     public MedicalClinic(String clinicName, String adrress, String phone, String email) {
         this.clinicName = clinicName;
