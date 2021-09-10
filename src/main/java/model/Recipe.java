@@ -5,9 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "recipe")
 @Setter
 @Getter
+@Table(name="recipe")
 public class Recipe {
     @Id
     @Column(name = "id", nullable = false)
@@ -24,5 +25,12 @@ public class Recipe {
 
     private String prescribed_medication;
 
-
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "investigation_description='" + investigation_description + '\'' +
+                ", diseases='" + diseases + '\'' +
+                ", prescribed_medication='" + prescribed_medication + '\'' +
+                '}';
+    }
 }

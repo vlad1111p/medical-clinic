@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "appointment")
 @Getter
 @Setter
+@Table(name ="appointment")
 public class Appointment {
     @Id
     @Column(name = "id", nullable = false)
@@ -22,9 +24,9 @@ public class Appointment {
     private Doctor doctor;
 
 
-    private LocalDateTime dateAndTime;
+    private LocalDate dateAndTime;
 
-    public Appointment(Patient patient, Doctor doctor, LocalDateTime dateAndTime) {
+    public Appointment(Patient patient, Doctor doctor, LocalDate dateAndTime) {
         this.patient = patient;
         this.doctor = doctor;
         this.dateAndTime = dateAndTime;
@@ -33,5 +35,14 @@ public class Appointment {
 
     public Appointment() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "patient=" + patient +
+                ", doctor=" + doctor +
+                ", dateAndTime=" + dateAndTime +
+                '}';
     }
 }

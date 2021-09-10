@@ -10,11 +10,12 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Properties;
 
 public class HibernateUtil<T> {
-
     private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
@@ -40,9 +41,7 @@ public class HibernateUtil<T> {
                 configuration.addAnnotatedClass(Appointment.class);
                 configuration.addAnnotatedClass(Doctor.class);
                 configuration.addAnnotatedClass(Recipe.class);
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties()).build();
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                sessionFactory = configuration.buildSessionFactory();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,18 +77,35 @@ public class HibernateUtil<T> {
     {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from " + object.getClass().getName());
-        List<T>  results = query.getResultList();
+//        Query query = session.createQuery("from " + object.getClass().getName());
+        List<T>  results = session.createQuery("from " +object.getClass().getName()).getResultList();
         transaction.commit();
         return results;
     }
 
-    public T findById(T object, int id)
+    public T findById(T object, Long id)
+    {
+
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+//        Query query = session.createQuery("from " + object.getClass().getName() + " where 'id'=" + id +"");
+        T result = (T) session.get( object.getClass().getName(),id);
+//        T result = (T) query.getSingleResult();
+        transaction.commit();
+        return result;
+
+        /*
+         List<T>  results = query.getResultList();
+         return results.get(0);
+         */
+    }
+    public T findByIdByTableName(String tablename, Long id)
     {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from " + object.getClass().getName() + " where id=" + id +"");
-        T result = (T) query.getSingleResult();
+        Query query = session.createQuery("from " + tablename+ "  where 'id'=" + id +"");
+        T result = (T) session.get( tablename,id);
+//        T result = (T) query.getSingleResult();
         transaction.commit();
         return result;
 
@@ -105,6 +121,7 @@ public class HibernateUtil<T> {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from " + object.getClass().getName() + " where " + column + "='" + value + "'" );
         List<T>  results = query.getResultList();
+
         transaction.commit();
         return results;
 

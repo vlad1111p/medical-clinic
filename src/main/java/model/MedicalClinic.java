@@ -2,13 +2,14 @@ package model;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name ="medicalclinic")
 @Getter
 @Setter
-
+@Table(name="medicalclinic")
 public class MedicalClinic {
     @Id
     @Column(name = "id", nullable = false)
@@ -17,7 +18,7 @@ public class MedicalClinic {
 
     private String clinicName;
 
-    private String adrress;
+    private String address;
 
     private String phone;
 
@@ -29,11 +30,13 @@ public class MedicalClinic {
     @OneToMany(mappedBy="medicalClinic", cascade=CascadeType.ALL,orphanRemoval = true)
     private Set<Doctor> doctor;
 
-    public MedicalClinic(String clinicName, String adrress, String phone, String email) {
+    public MedicalClinic(String clinicName, String address, String phone, String email, Set<Patient> patient, Set<Doctor> doctor) {
         this.clinicName = clinicName;
-        this.adrress = adrress;
+        this.address = address;
         this.phone = phone;
         this.email = email;
+        this.patient = patient;
+        this.doctor = doctor;
     }
 
     public MedicalClinic() {

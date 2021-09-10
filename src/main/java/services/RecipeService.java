@@ -4,10 +4,21 @@ import dao.HibernateUtil;
 import model.Patient;
 import model.Recipe;
 
+import java.util.List;
+
 public class RecipeService {
 
 
-        HibernateUtil<Recipe> accountGenericDao = new HibernateUtil<>();
+    HibernateUtil<Recipe> accountGenericDao = new HibernateUtil<>();
 
-        public void addAccount(Recipe account) { accountGenericDao.add(account); }
+    Recipe recipe = new Recipe();
+
+    public void addRecipe(Recipe account) {
+        accountGenericDao.add(account);
+    }
+
+    public List<Recipe> getAll(){
+        return accountGenericDao.getAll(recipe);
+    }
+
 }

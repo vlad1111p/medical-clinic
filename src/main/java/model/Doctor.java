@@ -6,9 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name = "doctor")
 @Setter
 @Getter
+@Table(name="doctor")
 public class Doctor {
     @Id
     @Column(name = "id", nullable = false)
@@ -19,11 +20,13 @@ public class Doctor {
 
     private String surName;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String password;
 
-    @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Appointment> appointmentDoctor;
 
     @Enumerated(EnumType.STRING)
@@ -32,12 +35,15 @@ public class Doctor {
     @ManyToOne
     private MedicalClinic medicalClinic;
 
-    public Doctor(String doctorName, String surName, String email, String password, Specialization specialization) {
+    public Doctor(String doctorName, String surName, String email, String password,
+                  Set<Appointment> appointmentDoctor, Specialization specialization, MedicalClinic medicalClinic) {
         this.doctorName = doctorName;
         this.surName = surName;
         this.email = email;
         this.password = password;
+        this.appointmentDoctor = appointmentDoctor;
         this.specialization = specialization;
+        this.medicalClinic = medicalClinic;
     }
 
     public Doctor() {

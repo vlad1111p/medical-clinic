@@ -1,14 +1,22 @@
 package services;
 
 import dao.HibernateUtil;
-import model.MedicalClinic;
 import model.Patient;
+
+import java.util.List;
 
 public class PatientService {
 
     HibernateUtil<Patient> accountGenericDao = new HibernateUtil<>();
 
-    public void addAccount(Patient account) {
+    Patient patient = new Patient();
+
+    public void add(Patient account) {
         accountGenericDao.add(account);
     }
+
+    public List<Patient> getAll(){
+     return accountGenericDao.getAll(patient);
+    }
+
 }
