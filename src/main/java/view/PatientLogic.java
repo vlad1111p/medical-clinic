@@ -5,14 +5,26 @@ import model.Patient;
 import model.Recipe;
 import services.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
 
 public class PatientLogic {
+
+
+    static DoctorService doctorService = new DoctorService();
+
+    static AppointmentService appointmentService = new AppointmentService();
+
+    static PatientService patientService = new PatientService();
+
+    static MedicalClinicService medicalClinic = new MedicalClinicService();
+
+    static RecipeService recipeService = new RecipeService();
+
     public PatientLogic() {
     }
 
@@ -41,42 +53,47 @@ public class PatientLogic {
         System.out.println("please fill in your age");
         int age = sc.nextInt();
 
-        MedicalClinicService medicalClinic = new MedicalClinicService();
 
         Patient patient = new Patient(name, surnName, CNP, age, email, password,
                 new HashSet<Appointment>(), medicalClinic.findById(1L));
 
-        PatientService patientService = new PatientService();
+
         patientService.add(patient);
 
     }
 
 
-    public static void makeAppointment(Scanner sc, Patient login)  {
+    public static void makeAppointment(Scanner sc, Patient login) {
         DoctorLogic doctorLogic = new DoctorLogic();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
-        AppointmentService appointmentService = new AppointmentService();
-        DoctorService doctorService = new DoctorService();
         System.out.println("please choose the id for which doctor");
         doctorLogic.showAllDoctor();
-        Long idChoice=sc.nextLong();
+        Long idChoice = sc.nextLong();
         System.out.println("please insert a date with format dd/mm/yyyy");
-        String date=sc.next();
+        String date = sc.next();
+        try {
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            if (localDate.isAfter(LocalDate.now())) {
 
-        LocalDate localDate = LocalDate.parse(date, formatter);
-
-
-        Appointment appointment = new Appointment(login,
-                doctorService.findById(idChoice)
-                , localDate);
-        appointmentService.add(appointment);
+                Appointment appointment = new Appointment(login,
+                        doctorService.findById(idChoice)
+                        , localDate);
+                appointmentService.add(appointment);
+            }else{
+                System.out.println("please insert a date after "+ LocalDate.now().format(formatter) + " format dd/mm/yyyy");
+                date = sc.next();
+            }
+        } catch (Exception e) {
+            System.err.println("wrong format for date");
+            makeAppointment(sc, login);
+        }
     }
 
 
     public static void viewPatientAppointment(Patient patient) {
-        AppointmentService appointmentService = new AppointmentService();
+
         List<Appointment> appointments = appointmentService.getAll();
 
         for (Appointment appointment : appointments) {
@@ -88,7 +105,7 @@ public class PatientLogic {
     }
 
     public static List<Appointment> viewPatientAppointmentAsList(Patient patient) {
-        AppointmentService appointmentService = new AppointmentService();
+
         List<Appointment> appointments = appointmentService.getAll();
         List<Appointment> returneableAppointments = new ArrayList<Appointment>();
 
@@ -101,7 +118,7 @@ public class PatientLogic {
     }
 
     public static void viewPatientRecipes(Patient patient) {
-        RecipeService recipeService = new RecipeService();
+
         List<Recipe> recipes = recipeService.getAll();
         List<Appointment> appointments = viewPatientAppointmentAsList(patient);
         for (Recipe recipe : recipes) {
@@ -115,7 +132,7 @@ public class PatientLogic {
     }
 
     public static Patient inputLoginPatient(Scanner sc) {
-        PatientService patientService = new PatientService();
+
         List<Patient> patients = patientService.getAll();
         System.out.println("please input username");
 //&& patient.getPassword().matches(password)
