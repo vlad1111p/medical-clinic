@@ -115,41 +115,25 @@ public class PatientLogic {
 //&& patient.getPassword().matches(password)
         String username = sc.nextLine();
 
-
-        boolean contains = false;
-        for (Patient patient : patients) {
-
-
-
-            if (patient.getEmail().matches(username) ) {
-                contains=true;
-                System.out.println("please input password");
-                String password = sc.nextLine();
-
-                if(patient.getPassword().matches(password)){
-                    return patient;
-                }
+        Patient resultPatient = patients.stream().filter(patient -> patient.getEmail().equals(username)).findAny().orElse(null);
+        if (resultPatient != null) {
+            System.out.println("please insert password");
+            String password = sc.nextLine();
+            if (resultPatient.getPassword().equals(password)) {
+                return resultPatient;
+            } else {
+                System.out.println("wrong password");
+               return inputLoginPatient(sc);
             }
 
-        }
-        if(!contains){
-
+        } else {
             System.out.println("wrong username");
-            inputLoginPatient(sc);
+            return inputLoginPatient(sc);
+
         }
-
-
-
-
-
-//        for (Patient patient : patients) {
-//            System.out.println(patient);
-//        }
-
-
-        return null;
 
     }
+
 
     public static void loggedPatientOptions(Scanner sc) {
         System.out.println("make appointment: mp");
