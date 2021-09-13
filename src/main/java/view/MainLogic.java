@@ -49,7 +49,9 @@ public class MainLogic {
                 while (true) {
 
                     Patient login = PatientLogic.inputLoginPatient(sc);
-
+                    if(login==null){
+                        break;
+                    }
                     while (login != null) {
                         PatientLogic.loggedPatientOptions(sc);
                         answer = sc.nextLine();

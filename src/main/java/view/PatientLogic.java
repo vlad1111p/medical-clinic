@@ -115,10 +115,18 @@ public class PatientLogic {
 //&& patient.getPassword().matches(password)
         String username = sc.nextLine();
 
+        if(username.equals("quit")){
+            return null;
+        }
+
         Patient resultPatient = patients.stream().filter(patient -> patient.getEmail().equals(username)).findAny().orElse(null);
         if (resultPatient != null) {
             System.out.println("please insert password");
             String password = sc.nextLine();
+
+            if(password.equals("quit")){
+                return null;
+            }
             if (resultPatient.getPassword().equals(password)) {
                 return resultPatient;
             } else {
