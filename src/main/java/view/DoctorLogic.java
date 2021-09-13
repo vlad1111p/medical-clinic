@@ -38,5 +38,13 @@ public class DoctorLogic {
 
     }
 
+    public void showAllDoctor(){
+        DoctorService ds=new DoctorService();
+
+        List<Doctor> listOfDoctor = ds.getAll();
+
+        listOfDoctor.stream().forEach( doctor-> System.out.println(doctor.toString()));
+    }
+
 
 }

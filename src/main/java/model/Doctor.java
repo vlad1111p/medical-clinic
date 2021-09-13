@@ -48,4 +48,14 @@ public class Doctor {
 
     public Doctor() {
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", doctorName='" + doctorName + '\'' +
+                ", surName='" + surName + '\'' +
+                ", specialization=" + specialization +
+                '}';
+    }
 }

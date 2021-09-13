@@ -5,11 +5,11 @@ import model.Patient;
 import model.Recipe;
 import services.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PatientLogic {
@@ -52,19 +52,25 @@ public class PatientLogic {
     }
 
 
-    public static void makeAppointment(Scanner sc, Patient login) {
+    public static void makeAppointment(Scanner sc, Patient login)  {
+        DoctorLogic doctorLogic = new DoctorLogic();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
-        long maxDay = LocalDate.of(2015, 12, 31).toEpochDay();
-        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
-        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
-        System.out.println(randomDate);
 
         AppointmentService appointmentService = new AppointmentService();
         DoctorService doctorService = new DoctorService();
+        System.out.println("please choose the id for which doctor");
+        doctorLogic.showAllDoctor();
+        Long idChoice=sc.nextLong();
+        System.out.println("please insert a date with format dd/mm/yyyy");
+        String date=sc.next();
+
+        LocalDate localDate = LocalDate.parse(date, formatter);
+
+
         Appointment appointment = new Appointment(login,
-                doctorService.findById(ThreadLocalRandom.current().nextLong(1L, Long.valueOf(doctorService.getAll().size())))
-                , randomDate);
+                doctorService.findById(idChoice)
+                , localDate);
         appointmentService.add(appointment);
     }
 
@@ -115,7 +121,7 @@ public class PatientLogic {
 //&& patient.getPassword().matches(password)
         String username = sc.nextLine();
 
-        if(username.equals("quit")){
+        if (username.equals("quit")) {
             return null;
         }
 
@@ -124,14 +130,14 @@ public class PatientLogic {
             System.out.println("please insert password");
             String password = sc.nextLine();
 
-            if(password.equals("quit")){
+            if (password.equals("quit")) {
                 return null;
             }
             if (resultPatient.getPassword().equals(password)) {
                 return resultPatient;
             } else {
                 System.out.println("wrong password");
-               return inputLoginPatient(sc);
+                return inputLoginPatient(sc);
             }
 
         } else {
