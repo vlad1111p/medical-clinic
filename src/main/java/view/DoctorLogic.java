@@ -13,8 +13,6 @@ public class DoctorLogic {
     }
 
 
-
-
     public static boolean inputLoginDoctor(Scanner sc) {
         System.out.println("please input username");
         String username = sc.nextLine();

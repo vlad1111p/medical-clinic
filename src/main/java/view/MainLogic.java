@@ -12,11 +12,11 @@ public class MainLogic {
     }
 
 
-    public void init(){
-    DoctorLogic doctorLogic= new DoctorLogic();
-    LoginLogic loginLogic = new LoginLogic();
-    PatientLogic patientLogic = new PatientLogic();
-    Session session = HibernateUtil.getSessionFactory().openSession();
+    public void init() {
+        DoctorLogic doctorLogic = new DoctorLogic();
+        LoginLogic loginLogic = new LoginLogic();
+        PatientLogic patientLogic = new PatientLogic();
+        Session session = HibernateUtil.getSessionFactory().openSession();
 //            MedicalClinic medicalClinic = new MedicalClinic("MEDSTAR Policlinica Mănăștur",
 //                    "Str. Mehedinţi, nr. 1-3", "0264/917", "email@email.com", new HashSet<Patient>(), new HashSet<Doctor>());
 //            MedicalClinicService medicalClinics = new MedicalClinicService();
@@ -27,72 +27,73 @@ public class MainLogic {
 //            doctorService.add(doctor);
 
 
-    RecipeService recipe = new RecipeService();
+        RecipeService recipe = new RecipeService();
 
-    Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-            while (true) {
-        System.out.println("Insert option");
+        while (true) {
+            System.out.println("Insert option");
 
-        loginLogic.mainScreen();
+            LoginLogic.mainScreen();
 
-        String answer = sc.nextLine();
+            String answer = sc.nextLine();
 
-        if (answer.equals("quit")) {
+            if (answer.equals("quit")) {
 
-            break;
-        } else if (answer.equals("rp")) {
+                break;
+            } else if (answer.equals("rp")) {
 
-            patientLogic.registerPatient(sc);
+                PatientLogic.registerPatient(sc);
 
-        } else if (answer.equals("lp")) {
-            while (true) {
+            } else if (answer.equals("lp")) {
+                while (true) {
 
-                Patient login = patientLogic.inputLoginPatient(sc);
+                    Patient login = PatientLogic.inputLoginPatient(sc);
 
-                while (login != null) {
-                    patientLogic.loggedPatientOptions(sc);
-                    answer = sc.nextLine();
-
-
-                    if (answer.equals("mp")) {
-
-                        patientLogic.makeAppointment(sc, login);
+                    while (login != null) {
+                        PatientLogic.loggedPatientOptions(sc);
+                        answer = sc.nextLine();
 
 
-                    } else if (answer.equals("vr")) {
+                        if (answer.equals("mp")) {
+
+                            PatientLogic.makeAppointment(sc, login);
 
 
-                        patientLogic.viewPatientRecipes(login);
+                        } else if (answer.equals("vr")) {
 
 
-                    } else if (answer.equals("va")) {
-
-                        patientLogic.viewPatientAppointment(login);
+                            PatientLogic.viewPatientRecipes(login);
 
 
-                    } else if (answer.equals("quit")) {
-                        break;
+                        } else if (answer.equals("va")) {
+
+                            PatientLogic.viewPatientAppointment(login);
+
+
+                        } else if (answer.equals("quit")) {
+                            break;
+                        }
+
+
                     }
 
+                }
+
+
+            } else if (answer.equals("ld")) {
+                while (true) {
+                    boolean login = DoctorLogic.inputLoginDoctor(sc);
+                    if (login) {
+                        System.out.println("youtube");
+
+                    }
 
                 }
 
             }
 
-
-        } else if (answer.equals("ld")) {
-            while (true) {
-                boolean login = doctorLogic.inputLoginDoctor(sc);
-                if (login) {
-                    System.out.println("youtube");
-
-                }
-
-            }
 
         }
-
-
-    }}
+    }
 }

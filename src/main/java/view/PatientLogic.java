@@ -107,36 +107,50 @@ public class PatientLogic {
         }
 
     }
+
     public static Patient inputLoginPatient(Scanner sc) {
-
+        PatientService patientService = new PatientService();
+        List<Patient> patients = patientService.getAll();
         System.out.println("please input username");
-
+//&& patient.getPassword().matches(password)
         String username = sc.nextLine();
 
-        System.out.println("please input password");
 
-        String password = sc.nextLine();
+        boolean contains = false;
+        for (Patient patient : patients) {
 
 
-        PatientService patientService = new PatientService();
 
-        List<Patient> patients = patientService.getAll();
+            if (patient.getEmail().matches(username) ) {
+                contains=true;
+                System.out.println("please input password");
+                String password = sc.nextLine();
+
+                if(patient.getPassword().matches(password)){
+                    return patient;
+                }
+            }
+
+        }
+        if(!contains){
+
+            System.out.println("wrong username");
+            inputLoginPatient(sc);
+        }
+
+
+
+
 
 //        for (Patient patient : patients) {
 //            System.out.println(patient);
 //        }
 
-        boolean contains = false;
-        for (Patient patient : patients) {
-            if (patient.getEmail().matches(username) && patient.getPassword().matches(password)) {
-                return patient;
-            }
-
-        }
 
         return null;
 
     }
+
     public static void loggedPatientOptions(Scanner sc) {
         System.out.println("make appointment: mp");
         System.out.println("view your appointments: va");

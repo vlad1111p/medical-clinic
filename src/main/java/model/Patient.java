@@ -25,7 +25,7 @@ public class Patient {
     private int age;
     @Column(unique = true)
     private String email;
-    @Column(unique = true)
+
     private String password;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
