@@ -69,8 +69,23 @@ public class MainLogic {
                     while (true) {
                         Doctor doctor = doctorLogic.inputLoginDoctor(sc);
                         if (doctor != null) {
-                            System.out.println("youtube");
-                        } else if (doctor==null){
+                            while (true) {
+                                doctorLogic.showDoctorOptions();
+                                answer = sc.nextLine();
+
+                                if (answer.equals("quit")) {
+                                    break;
+                                }
+                                if (answer.equals("va")) {
+                                    doctorLogic.viewAppointments(doctor);
+                                }
+                                if (answer.equals("wr")) {
+                                    doctorLogic.writeRecipe(sc, doctor);
+                                }
+
+
+                            }
+                        } else if (doctor == null) {
                             break;
                         }
                     }

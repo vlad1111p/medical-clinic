@@ -17,4 +17,8 @@ public class RecipeService {
     public List<Recipe> getAll() {
         return recipeGenericDao.getAll(recipe);
     }
+
+    public void updateRecipe(Recipe account) {
+        recipeGenericDao.update(account);
+    }
 }

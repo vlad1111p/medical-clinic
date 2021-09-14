@@ -20,6 +20,9 @@ public class AppointmentService {
     public List<Appointment> getAll() {
         return appointmentGenericDao.getAll(appointment);
     }
+    public Appointment findById(Long id) {
+        return appointmentGenericDao.findById(appointment, id);
+    }
 
 }
 

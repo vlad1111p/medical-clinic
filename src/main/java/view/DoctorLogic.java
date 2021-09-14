@@ -1,20 +1,22 @@
 package view;
 
-import model.Appointment;
-import model.Doctor;
-import model.Patient;
-import model.Specialization;
+import model.*;
+import services.AppointmentService;
 import services.DoctorService;
 import services.MedicalClinicService;
+import services.RecipeService;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class DoctorLogic {
 
     private static final DoctorService doctorService = new DoctorService();
     private static final MedicalClinicService medicalClinic = new MedicalClinicService();
+    private static final RecipeService recipeService = new RecipeService();
+    private static final AppointmentService appointmentService = new AppointmentService();
 
     public DoctorLogic() {
     }
@@ -80,6 +82,76 @@ public class DoctorLogic {
         }
     }
 
+    public void showDoctorOptions() {
+
+        System.out.println("view appointments: va");
+        System.out.println("write recipe: wr");
+        System.out.println("quit");
+    }
+
+    public List<Appointment> viewAppointments(Doctor doctor) {
+        List<Appointment> appointments = appointmentService.getAll().stream()
+                .filter(appointment -> appointment.getDoctor().getId()==doctor.getId()).collect(Collectors.toList());
+        for(Appointment appointment : appointments){
+            System.out.println(appointment);
+        }
+        return appointments;
+    }
+    public void writeRecipe(Scanner sc,Doctor doctor) throws InterruptedException {
+
+        List<Appointment> appointments = viewAppointments(doctor);
+
+        System.out.println("For which appointment do you want to write a recipe?");
+        System.out.println("Choose by id");
+
+        Long choice=Long.valueOf(sc.nextLine());
+        Appointment appointmentToChangeRecipe=appointmentService.findById(choice);
+        Recipe recipeOfAppointment=recipeService.getAll().stream()
+                .filter(recipe-> recipe.getAppointment().getId() == appointmentToChangeRecipe.getId())
+                .findFirst().orElse(null);
+        if(recipeOfAppointment==null){
+            Recipe recipe=new Recipe();
+            System.out.println("write the investigation description");
+            recipe.setInvestigation_description(sc.nextLine());
+            System.out.println("write the disease");
+            recipe.setDiseases(sc.nextLine());
+            System.out.println("write the prescribed medication");
+            recipe.setPrescribed_medication(sc.nextLine());
+
+            recipe.setAppointment(appointmentToChangeRecipe);
+
+            recipeService.addRecipe(recipe);
+
+        }else{
+
+            System.out.println("the investigation description is "+ recipeOfAppointment.getInvestigation_description());
+            System.out.println("is it correct y/n");
+
+
+            String answer=sc.nextLine();
+
+            if(answer.equals("n")){
+                System.out.println("wirte the new investigation description");
+                recipeOfAppointment.setInvestigation_description(sc.nextLine());
+            }
+            System.out.println("the disease is "+ recipeOfAppointment.getDiseases());
+            System.out.println("is it correct y/n");
+            answer=sc.nextLine();
+            if(answer.equals("n")){
+                System.out.println("write the disease description");
+                recipeOfAppointment.setDiseases(sc.nextLine());
+            }
+            System.out.println("the prescribed medication is "+ recipeOfAppointment.getPrescribed_medication());
+            System.out.println("is it correct y/n");
+            answer=sc.nextLine();
+            if(answer.equals("n")){
+                System.out.println("write the prescribed medication ");
+                recipeOfAppointment.setPrescribed_medication(sc.nextLine());
+            }
+
+            recipeService.updateRecipe(recipeOfAppointment);
+        }
+    }
     public void listOfAppointments() {}
 
 }
