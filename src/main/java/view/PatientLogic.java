@@ -71,8 +71,8 @@ public class PatientLogic {
                         doctorService.findById(idChoice)
                         , localDate);
                 appointmentService.add(appointment);
-            }else{
-                System.out.println("please insert a date after "+ LocalDate.now().format(formatter) + " format dd/mm/yyyy");
+            } else {
+                System.out.println("please insert a date after " + LocalDate.now().format(formatter) + " format dd/mm/yyyy");
                 makeAppointment(sc, login);
 
             }
@@ -110,11 +110,18 @@ public class PatientLogic {
     public void viewPatientRecipes(Patient patient) {
         List<Recipe> recipes = recipeService.getAll();
         List<Appointment> appointments = viewPatientAppointmentAsList(patient);
+//        for (Recipe recipe : recipes) {
+//            for (Appointment appointment : appointments) {
+//                if (recipe.getAppointment().getId() == appointment.getId()) {
+//                    System.out.println(recipe);
+//                }
+//            }
+//        }
         for (Recipe recipe : recipes) {
-            for (Appointment appointment : appointments) {
-                if (recipe.getAppointment().getId() == appointment.getId()) {
-                    System.out.println(recipe);
-                }
+            if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
+                System.out.println(recipe.getAppointment().getDoctor() + " " +
+                        recipe.getAppointment().getDateAndTime()
+                        + " " + recipe.getDiseases());
             }
         }
     }

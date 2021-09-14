@@ -38,6 +38,8 @@ public class MainLogic {
                 } else if (answer.equals("rp")) {
 
                     patientLogic.registerPatient(sc);
+                    init();
+                    break;
 
                 } else if (answer.equals("lp")) {
 
@@ -71,7 +73,7 @@ public class MainLogic {
                     doctorLogic.registerDoctor(sc);
                 }
             }
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             System.err.println("An error has occurred please try again");
             init();
         }
