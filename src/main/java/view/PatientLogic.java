@@ -110,13 +110,7 @@ public class PatientLogic {
     public void viewPatientRecipes(Patient patient) {
         List<Recipe> recipes = recipeService.getAll();
         List<Appointment> appointments = viewPatientAppointmentAsList(patient);
-//        for (Recipe recipe : recipes) {
-//            for (Appointment appointment : appointments) {
-//                if (recipe.getAppointment().getId() == appointment.getId()) {
-//                    System.out.println(recipe);
-//                }
-//            }
-//        }
+
         for (Recipe recipe : recipes) {
             if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
                 System.out.println(recipe.getAppointment().getDoctor() + " " +

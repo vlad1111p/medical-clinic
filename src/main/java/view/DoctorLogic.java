@@ -2,6 +2,7 @@ package view;
 
 import model.Appointment;
 import model.Doctor;
+import model.Patient;
 import model.Specialization;
 import services.DoctorService;
 import services.MedicalClinicService;
@@ -49,19 +50,34 @@ public class DoctorLogic {
         doctorService.add(doctor);
     }
 
-    public boolean inputLoginDoctor(Scanner sc) {
-        System.out.println("please input email");
-        String username = sc.nextLine();
-
-        System.out.println("please input password");
-        String password = sc.nextLine();
-
+    public Doctor inputLoginDoctor(Scanner sc) {
         List<Doctor> doctors = doctorService.getAll();
 
-        for (Doctor doctor : doctors) {
-            return doctor.getEmail().matches(username) && doctor.getPassword().matches(password);
+        System.out.println("please insert email");
+
+        String username = sc.nextLine();
+
+        if (username.equals("quit")) {
+            return null;
         }
-        return false;
+        Doctor resultDoctor = doctors.stream().filter(doctor -> doctor.getEmail().equals(username)).findAny().orElse(null);
+        if (resultDoctor != null) {
+            System.out.println("please insert password");
+            String password = sc.nextLine();
+
+            if (password.equals("quit")) {
+                return null;
+            }
+            if (resultDoctor.getPassword().equals(password)) {
+                return resultDoctor;
+            } else {
+                System.out.println("wrong password");
+                return inputLoginDoctor(sc);
+            }
+        } else {
+            System.out.println("wrong email");
+            return inputLoginDoctor(sc);
+        }
     }
 
     public void listOfAppointments() {}

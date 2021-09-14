@@ -1,6 +1,7 @@
 package view;
 
 import dao.HibernateUtil;
+import model.Doctor;
 import model.Patient;
 import org.hibernate.Session;
 
@@ -64,9 +65,11 @@ public class MainLogic {
                         }
                 } else if (answer.equals("ld")) {
                     while (true) {
-                        boolean login = doctorLogic.inputLoginDoctor(sc);
-                        if (login) {
+                        Doctor doctor = doctorLogic.inputLoginDoctor(sc);
+                        if (doctor != null) {
                             System.out.println("youtube");
+                        } else if (doctor==null){
+                            break;
                         }
                     }
                 } else if (answer.equals("rd")) {
