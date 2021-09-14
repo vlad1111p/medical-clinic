@@ -1,12 +1,9 @@
 package view;
 
-import dao.HibernateUtil;
 import model.Doctor;
 import model.Patient;
-import org.hibernate.Session;
 import services.PatientService;
 
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class MainLogic {
@@ -46,25 +43,25 @@ public class MainLogic {
 
                 } else if (answer.equals("lp")) {
 
-                        Patient patient = patientLogic.inputLoginPatient(sc);
+                    Patient patient = patientLogic.inputLoginPatient(sc);
 
-                        if (patient == null) {
+                    if (patient == null) {
+                        break;
+                    }
+                    while (true) {
+                        patientLogic.loggedPatientOptions(sc);
+                        answer = sc.nextLine();
+
+                        if (answer.equals("mp")) {
+                            patientLogic.makeAppointment(sc, patient);
+                        } else if (answer.equals("vr")) {
+                            patientService.viewPatientRecipes(patient);
+                        } else if (answer.equals("va")) {
+                            patientService.viewPatientAppointmentAsList(patient);
+                        } else if (answer.equals("quit")) {
                             break;
                         }
-                        while (true) {
-                            patientLogic.loggedPatientOptions(sc);
-                            answer = sc.nextLine();
-
-                            if (answer.equals("mp")) {
-                                patientLogic.makeAppointment(sc, patient);
-                            } else if (answer.equals("vr")) {
-                                patientService.viewPatientRecipes(patient);
-                            } else if (answer.equals("va")) {
-                                patientService.viewPatientAppointmentAsList(patient);
-                            } else if (answer.equals("quit")) {
-                                break;
-                            }
-                        }
+                    }
                 } else if (answer.equals("ld")) {
                     while (true) {
                         Doctor doctor = doctorLogic.inputLoginDoctor(sc);

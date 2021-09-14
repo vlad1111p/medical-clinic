@@ -5,12 +5,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity(name = "appointment")
 @Getter
 @Setter
-@Table(name ="appointment")
+@Table(name = "appointment")
 public class Appointment {
     @Id
     @Column(name = "id", nullable = false)
