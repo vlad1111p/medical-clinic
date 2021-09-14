@@ -2,7 +2,10 @@ package services;
 
 import dao.GenericDao;
 import model.Appointment;
+import model.Doctor;
+import model.Patient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentService {
@@ -17,6 +20,7 @@ public class AppointmentService {
     public List<Appointment> getAll() {
         return appointmentGenericDao.getAll(appointment);
     }
+
 }
 
 

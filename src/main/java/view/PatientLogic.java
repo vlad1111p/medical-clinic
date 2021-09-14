@@ -15,11 +15,12 @@ import java.util.Scanner;
 public class PatientLogic {
 
 
-    static DoctorService doctorService = new DoctorService();
-    static AppointmentService appointmentService = new AppointmentService();
-    static PatientService patientService = new PatientService();
-    static MedicalClinicService medicalClinic = new MedicalClinicService();
-    static RecipeService recipeService = new RecipeService();
+    DoctorService doctorService = new DoctorService();
+    AppointmentService appointmentService = new AppointmentService();
+    PatientService patientService = new PatientService();
+    MedicalClinicService medicalClinic = new MedicalClinicService();
+    RecipeService recipeService = new RecipeService();
+    DoctorLogic doctorLogic = new DoctorLogic();
 
     public PatientLogic() {
     }
@@ -55,11 +56,11 @@ public class PatientLogic {
     }
 
     public void makeAppointment(Scanner sc, Patient login) {
-        DoctorLogic doctorLogic = new DoctorLogic();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         System.out.println("please choose the id for which doctor");
-        doctorLogic.showAllDoctor();
+        doctorService.showAllDoctor();
         Long idChoice = sc.nextLong();
         System.out.println("please insert a date with format dd/mm/yyyy");
         String date = sc.next();
@@ -94,31 +95,31 @@ public class PatientLogic {
         }
     }
 
-    public List<Appointment> viewPatientAppointmentAsList(Patient patient) {
+//    public List<Appointment> viewPatientAppointmentAsList(Patient patient) {
+//
+//        List<Appointment> appointments = appointmentService.getAll();
+//        List<Appointment> returnableAppointments = new ArrayList<Appointment>();
+//
+//        for (Appointment appointment : appointments) {
+//            if (appointment.getPatient().getId() == patient.getId()) {
+//                returnableAppointments.add(appointment);
+//            }
+//        }
+//        return returnableAppointments;
+//    }
 
-        List<Appointment> appointments = appointmentService.getAll();
-        List<Appointment> returnableAppointments = new ArrayList<Appointment>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getPatient().getId() == patient.getId()) {
-                returnableAppointments.add(appointment);
-            }
-        }
-        return returnableAppointments;
-    }
-
-    public void viewPatientRecipes(Patient patient) {
-        List<Recipe> recipes = recipeService.getAll();
-        List<Appointment> appointments = viewPatientAppointmentAsList(patient);
-
-        for (Recipe recipe : recipes) {
-            if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
-                System.out.println(recipe.getAppointment().getDoctor() + " " +
-                        recipe.getAppointment().getDateAndTime()
-                        + " " + recipe.getDiseases());
-            }
-        }
-    }
+//    public void viewPatientRecipes(Patient patient) {
+//        List<Recipe> recipes = recipeService.getAll();
+//        List<Appointment> appointments = viewPatientAppointmentAsList(patient);
+//
+//        for (Recipe recipe : recipes) {
+//            if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
+//                System.out.println(recipe.getAppointment().getDoctor() + " " +
+//                        recipe.getAppointment().getDateAndTime()
+//                        + " " + recipe.getDiseases());
+//            }
+//        }
+//    }
 
     public Patient inputLoginPatient(Scanner sc) {
 

@@ -4,6 +4,7 @@ import dao.HibernateUtil;
 import model.Doctor;
 import model.Patient;
 import org.hibernate.Session;
+import services.PatientService;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class MainLogic {
     LoginLogic loginLogic = new LoginLogic();
     PatientLogic patientLogic = new PatientLogic();
     DoctorLogic doctorLogic = new DoctorLogic();
+    PatientService patientService = new PatientService();
 
     public MainLogic() {
     }
@@ -44,9 +46,9 @@ public class MainLogic {
 
                 } else if (answer.equals("lp")) {
 
-                        Patient login = patientLogic.inputLoginPatient(sc);
+                        Patient patient = patientLogic.inputLoginPatient(sc);
 
-                        if (login == null) {
+                        if (patient == null) {
                             break;
                         }
                         while (true) {
@@ -54,11 +56,11 @@ public class MainLogic {
                             answer = sc.nextLine();
 
                             if (answer.equals("mp")) {
-                                patientLogic.makeAppointment(sc, login);
+                                patientLogic.makeAppointment(sc, patient);
                             } else if (answer.equals("vr")) {
-                                patientLogic.viewPatientRecipes(login);
+                                patientService.viewPatientRecipes(patient);
                             } else if (answer.equals("va")) {
-                                patientLogic.viewPatientAppointment(login);
+                                patientService.viewPatientAppointmentAsList(patient);
                             } else if (answer.equals("quit")) {
                                 break;
                             }

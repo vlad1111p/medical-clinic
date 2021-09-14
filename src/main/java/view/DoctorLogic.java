@@ -82,8 +82,4 @@ public class DoctorLogic {
 
     public void listOfAppointments() {}
 
-    public void showAllDoctor() {
-        List<Doctor> listOfDoctor = doctorService.getAll();
-        listOfDoctor.forEach(doctor -> System.out.println(doctor.toString()));
-    }
 }
