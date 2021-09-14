@@ -1,24 +1,20 @@
 package services;
 
-import dao.HibernateUtil;
-import model.Patient;
+import dao.GenericDao;
 import model.Recipe;
 
 import java.util.List;
 
 public class RecipeService {
 
-
-    HibernateUtil<Recipe> accountGenericDao = new HibernateUtil<>();
-
+    GenericDao<Recipe> recipeGenericDao = new GenericDao<>();
     Recipe recipe = new Recipe();
 
     public void addRecipe(Recipe account) {
-        accountGenericDao.add(account);
+        recipeGenericDao.add(recipe);
     }
 
-    public List<Recipe> getAll(){
-        return accountGenericDao.getAll(recipe);
+    public List<Recipe> getAll() {
+        return recipeGenericDao.getAll(recipe);
     }
-
 }

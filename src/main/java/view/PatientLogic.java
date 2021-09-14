@@ -16,19 +16,15 @@ public class PatientLogic {
 
 
     static DoctorService doctorService = new DoctorService();
-
     static AppointmentService appointmentService = new AppointmentService();
-
     static PatientService patientService = new PatientService();
-
     static MedicalClinicService medicalClinic = new MedicalClinicService();
-
     static RecipeService recipeService = new RecipeService();
 
     public PatientLogic() {
     }
 
-    public static void registerPatient(Scanner sc) {
+    public void registerPatient(Scanner sc) {
 
         System.out.println("please fill in your name");
 
@@ -53,20 +49,14 @@ public class PatientLogic {
         System.out.println("please fill in your age");
         int age = sc.nextInt();
 
-
         Patient patient = new Patient(name, surnName, CNP, age, email, password,
                 new HashSet<Appointment>(), medicalClinic.findById(1L));
-
-
         patientService.add(patient);
-
     }
 
-
-    public static void makeAppointment(Scanner sc, Patient login) {
+    public void makeAppointment(Scanner sc, Patient login) {
         DoctorLogic doctorLogic = new DoctorLogic();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
 
         System.out.println("please choose the id for which doctor");
         doctorLogic.showAllDoctor();
@@ -83,7 +73,8 @@ public class PatientLogic {
                 appointmentService.add(appointment);
             }else{
                 System.out.println("please insert a date after "+ LocalDate.now().format(formatter) + " format dd/mm/yyyy");
-                date = sc.next();
+                makeAppointment(sc, login);
+
             }
         } catch (Exception e) {
             System.err.println("wrong format for date");
@@ -92,7 +83,7 @@ public class PatientLogic {
     }
 
 
-    public static void viewPatientAppointment(Patient patient) {
+    public void viewPatientAppointment(Patient patient) {
 
         List<Appointment> appointments = appointmentService.getAll();
 
@@ -101,24 +92,22 @@ public class PatientLogic {
                 System.out.println(appointment);
             }
         }
-
     }
 
-    public static List<Appointment> viewPatientAppointmentAsList(Patient patient) {
+    public List<Appointment> viewPatientAppointmentAsList(Patient patient) {
 
         List<Appointment> appointments = appointmentService.getAll();
-        List<Appointment> returneableAppointments = new ArrayList<Appointment>();
+        List<Appointment> returnableAppointments = new ArrayList<Appointment>();
 
         for (Appointment appointment : appointments) {
             if (appointment.getPatient().getId() == patient.getId()) {
-                returneableAppointments.add(appointment);
+                returnableAppointments.add(appointment);
             }
         }
-        return returneableAppointments;
+        return returnableAppointments;
     }
 
-    public static void viewPatientRecipes(Patient patient) {
-
+    public void viewPatientRecipes(Patient patient) {
         List<Recipe> recipes = recipeService.getAll();
         List<Appointment> appointments = viewPatientAppointmentAsList(patient);
         for (Recipe recipe : recipes) {
@@ -128,20 +117,19 @@ public class PatientLogic {
                 }
             }
         }
-
     }
 
-    public static Patient inputLoginPatient(Scanner sc) {
+    public Patient inputLoginPatient(Scanner sc) {
 
         List<Patient> patients = patientService.getAll();
-        System.out.println("please input username");
-//&& patient.getPassword().matches(password)
+
+        System.out.println("please insert email");
+
         String username = sc.nextLine();
 
         if (username.equals("quit")) {
             return null;
         }
-
         Patient resultPatient = patients.stream().filter(patient -> patient.getEmail().equals(username)).findAny().orElse(null);
         if (resultPatient != null) {
             System.out.println("please insert password");
@@ -158,21 +146,15 @@ public class PatientLogic {
             }
 
         } else {
-            System.out.println("wrong username");
+            System.out.println("wrong email");
             return inputLoginPatient(sc);
-
         }
-
     }
 
-
-    public static void loggedPatientOptions(Scanner sc) {
+    public void loggedPatientOptions(Scanner sc) {
         System.out.println("make appointment: mp");
         System.out.println("view your appointments: va");
         System.out.println("view your recipes: vr");
         System.out.println("quit");
-
-
     }
-
 }

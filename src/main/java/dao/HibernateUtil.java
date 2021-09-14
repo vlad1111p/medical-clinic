@@ -28,7 +28,7 @@ public class HibernateUtil<T> {
                 settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
                 settings.put(Environment.URL, "jdbc:mysql://localhost:3306/medical_clinic?serverTimezone=UTC");
                 settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "qazwsx");
+                settings.put(Environment.PASS, "1099");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
                 settings.put(Environment.SHOW_SQL, "false");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
@@ -49,62 +49,42 @@ public class HibernateUtil<T> {
         return sessionFactory;
     }
 
-    public void add(T object)
-    {
+    public void add(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(object);
         transaction.commit();
     }
 
-    public void update(T object)
-    {
+    public void update(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(object);
         transaction.commit();
     }
 
-    public void delete(T object)
-    {
+    public void delete(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(object);
         transaction.commit();
     }
 
-    public List<T> getAll(T object)
-    {
+    public List<T> getAll(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-//        Query query = session.createQuery("from " + object.getClass().getName());
-        List<T>  results = session.createQuery("from " +object.getClass().getName()).getResultList();
+        Query query = session.createQuery("from " + object.getClass().getName());
+        List<T> results = session.createQuery("from " + object.getClass().getName()).getResultList();
         transaction.commit();
         return results;
     }
 
-    public T findById(T object, Long id)
-    {
+    public T findById(T object, Long id) {
 
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-//        Query query = session.createQuery("from " + object.getClass().getName() + " where 'id'=" + id +"");
-        T result = (T) session.get( object.getClass().getName(),id);
-//        T result = (T) query.getSingleResult();
-        transaction.commit();
-        return result;
-
-        /*
-         List<T>  results = query.getResultList();
-         return results.get(0);
-         */
-    }
-    public T findByIdByTableName(String tablename, Long id)
-    {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from " + tablename+ "  where 'id'=" + id +"");
-        T result = (T) session.get( tablename,id);
+        Query query = session.createQuery("from " + object.getClass().getName() + " where 'id'=" + id + "");
+        T result = (T) session.get(object.getClass().getName(), id);
 //        T result = (T) query.getSingleResult();
         transaction.commit();
         return result;
@@ -115,12 +95,26 @@ public class HibernateUtil<T> {
          */
     }
 
-    public List<T> findByColumn(T object, String column, String value)
-    {
+    public T findByIdByTableName(String tablename, Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from " + object.getClass().getName() + " where " + column + "='" + value + "'" );
-        List<T>  results = query.getResultList();
+        Query query = session.createQuery("from " + tablename + "  where 'id'=" + id + "");
+        T result = (T) session.get(tablename, id);
+//        T result = (T) query.getSingleResult();
+        transaction.commit();
+        return result;
+
+        /*
+         List<T>  results = query.getResultList();
+         return results.get(0);
+         */
+    }
+
+    public List<T> findByColumn(T object, String column, String value) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from " + object.getClass().getName() + " where " + column + "='" + value + "'");
+        List<T> results = query.getResultList();
 
         transaction.commit();
         return results;

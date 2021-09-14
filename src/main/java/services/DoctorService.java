@@ -1,28 +1,24 @@
 package services;
 
-import dao.HibernateUtil;
-import model.Appointment;
+import dao.GenericDao;
 import model.Doctor;
-import model.MedicalClinic;
 
 import java.util.List;
 
 public class DoctorService {
 
-    HibernateUtil<Doctor> accountGenericDao = new HibernateUtil<>();
+    GenericDao<Doctor> doctorGenericDao = new GenericDao<>();
+    Doctor doctor = new Doctor();
 
-    Doctor doctor=new Doctor();
-
-    public void add(Doctor account) {
-        accountGenericDao.add(account);
+    public void add(Doctor doctor) {
+        doctorGenericDao.add(doctor);
     }
 
-    public List<Doctor> getAll(){
-        return accountGenericDao.getAll(doctor);
+    public List<Doctor> getAll() {
+        return doctorGenericDao.getAll(doctor);
     }
 
-    public Doctor findById(Long id){
-        return accountGenericDao.findById(doctor,id );
-
+    public Doctor findById(Long id) {
+        return doctorGenericDao.findById(doctor, id);
     }
 }

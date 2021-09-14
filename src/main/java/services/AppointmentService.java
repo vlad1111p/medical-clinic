@@ -1,23 +1,21 @@
 package services;
 
-import dao.HibernateUtil;
+import dao.GenericDao;
 import model.Appointment;
 
 import java.util.List;
 
 public class AppointmentService {
 
-
-    HibernateUtil<Appointment> accountGenericDao = new HibernateUtil<>();
-
+    GenericDao<Appointment> appointmentGenericDao = new GenericDao<>();
     Appointment appointment = new Appointment();
 
-    public void add(Appointment account) {
-        accountGenericDao.add(account);
+    public void add(Appointment appointment) {
+        appointmentGenericDao.add(appointment);
     }
 
     public List<Appointment> getAll() {
-        return accountGenericDao.getAll(appointment);
+        return appointmentGenericDao.getAll(appointment);
     }
 }
 

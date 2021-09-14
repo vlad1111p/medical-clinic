@@ -1,20 +1,18 @@
 package services;
 
-import dao.HibernateUtil;
+import dao.GenericDao;
 import model.MedicalClinic;
 
 public class MedicalClinicService {
 
-    HibernateUtil<MedicalClinic> accountGenericDao = new HibernateUtil<>();
+    GenericDao<MedicalClinic> medicalClinicGenericDao = new GenericDao<>();
     MedicalClinic medicalClinic = new MedicalClinic();
 
-    public void add(MedicalClinic account) {
-        accountGenericDao.add(account);
+    public void add(MedicalClinic medicalClinic) {
+        medicalClinicGenericDao.add(medicalClinic);
     }
 
-    public MedicalClinic findById( Long id){
-       return accountGenericDao.findById(medicalClinic,id );
-
+    public MedicalClinic findById(Long id) {
+        return medicalClinicGenericDao.findById(medicalClinic, id);
     }
-
 }
