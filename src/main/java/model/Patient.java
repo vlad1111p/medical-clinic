@@ -57,7 +57,6 @@ public class Patient {
         return "Patient{" +
                 "patientName='" + patientName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

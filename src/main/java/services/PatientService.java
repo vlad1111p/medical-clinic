@@ -12,6 +12,7 @@ public class PatientService {
 
     GenericDao<Patient> patientGenericDao = new GenericDao<>();
     Patient patient = new Patient();
+    AppointmentService appointmentService = new AppointmentService();
 
     public void add(Patient patient) {
         patientGenericDao.add(patient);
@@ -21,8 +22,17 @@ public class PatientService {
         return patientGenericDao.getAll(patient);
     }
 
+    public void viewPatientAppointment(Patient patient) {
+        List<Appointment> appointments = appointmentService.getAll();
+
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatient().getId() == patient.getId()) {
+                System.out.println(appointment);
+            }
+        }
+    }
+
     public List<Appointment> viewPatientAppointmentAsList(Patient user) {
-        AppointmentService appointmentService = new AppointmentService();
         List<Appointment> appointments = appointmentService.getAll();
         List<Appointment> returnableAppointments = new ArrayList<Appointment>();
 
@@ -40,9 +50,11 @@ public class PatientService {
 
         for (Recipe recipe : recipes) {
             if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
-                System.out.println(recipe.getAppointment().getDoctor() + " " +
-                        recipe.getAppointment().getDateAndTime()
-                        + " " + recipe.getDiseases());
+                System.out.println("Doctor " + recipe.getAppointment().getDoctor().getDoctorName()
+                        + " specialization " + recipe.getAppointment().getDoctor().getSpecialization()
+                        + " date: "+ recipe.getAppointment().getDateAndTime()
+                        + " disease: " + recipe.getDiseases()
+                        + " medication: " + recipe.getPrescribed_medication());
             }
         }
     }

@@ -10,7 +10,7 @@ public class RecipeService {
     GenericDao<Recipe> recipeGenericDao = new GenericDao<>();
     Recipe recipe = new Recipe();
 
-    public void addRecipe(Recipe account) {
+    public void addRecipe(Recipe recipe) {
         recipeGenericDao.add(recipe);
     }
 

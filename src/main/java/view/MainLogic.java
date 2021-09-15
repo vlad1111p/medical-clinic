@@ -2,6 +2,7 @@ package view;
 
 import model.Doctor;
 import model.Patient;
+import services.DoctorService;
 import services.PatientService;
 
 import java.util.Scanner;
@@ -12,6 +13,7 @@ public class MainLogic {
     PatientLogic patientLogic = new PatientLogic();
     DoctorLogic doctorLogic = new DoctorLogic();
     PatientService patientService = new PatientService();
+    DoctorService doctorService = new DoctorService();
 
     public MainLogic() {
     }
@@ -25,7 +27,6 @@ public class MainLogic {
 
         try {
             Scanner sc = new Scanner(System.in);
-
             while (true) {
                 System.out.println("=== Welcome to Medical Clinic ===\nInsert an option");
 
@@ -38,8 +39,7 @@ public class MainLogic {
                 } else if (answer.equals("rp")) {
 
                     patientLogic.registerPatient(sc);
-                    init();
-                    break;
+                    sc.skip("\n");
 
                 } else if (answer.equals("lp")) {
 
@@ -54,38 +54,34 @@ public class MainLogic {
 
                         if (answer.equals("mp")) {
                             patientLogic.makeAppointment(sc, patient);
+                            sc.skip("\n");
                         } else if (answer.equals("vr")) {
                             patientService.viewPatientRecipes(patient);
                         } else if (answer.equals("va")) {
-                            patientService.viewPatientAppointmentAsList(patient);
+                            patientService.viewPatientAppointment(patient);
                         } else if (answer.equals("quit")) {
                             break;
                         }
                     }
                 } else if (answer.equals("ld")) {
-                    while (true) {
                         Doctor doctor = doctorLogic.inputLoginDoctor(sc);
                         if (doctor != null) {
                             while (true) {
                                 doctorLogic.showDoctorOptions();
                                 answer = sc.nextLine();
-
                                 if (answer.equals("quit")) {
                                     break;
                                 }
                                 if (answer.equals("va")) {
-                                    doctorLogic.viewAppointments(doctor);
+                                    doctorService.viewDoctorAppointments(doctor);
                                 }
                                 if (answer.equals("wr")) {
                                     doctorLogic.writeRecipe(sc, doctor);
                                 }
-
-
                             }
-                        } else if (doctor == null) {
+                        } else {
                             break;
                         }
-                    }
                 } else if (answer.equals("rd")) {
                     doctorLogic.registerDoctor(sc);
                 }

@@ -70,6 +70,7 @@ public class PatientLogic {
                         doctorService.findById(idChoice)
                         , localDate);
                 appointmentService.add(appointment);
+                System.out.println("appointment was successfully created");
             } else {
                 System.out.println("please insert a date after " + LocalDate.now().format(formatter) + " format dd/mm/yyyy");
                 makeAppointment(sc, login);
@@ -81,43 +82,6 @@ public class PatientLogic {
         }
     }
 
-
-    public void viewPatientAppointment(Patient patient) {
-
-        List<Appointment> appointments = appointmentService.getAll();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getPatient().getId() == patient.getId()) {
-                System.out.println(appointment);
-            }
-        }
-    }
-
-//    public List<Appointment> viewPatientAppointmentAsList(Patient patient) {
-//
-//        List<Appointment> appointments = appointmentService.getAll();
-//        List<Appointment> returnableAppointments = new ArrayList<Appointment>();
-//
-//        for (Appointment appointment : appointments) {
-//            if (appointment.getPatient().getId() == patient.getId()) {
-//                returnableAppointments.add(appointment);
-//            }
-//        }
-//        return returnableAppointments;
-//    }
-
-//    public void viewPatientRecipes(Patient patient) {
-//        List<Recipe> recipes = recipeService.getAll();
-//        List<Appointment> appointments = viewPatientAppointmentAsList(patient);
-//
-//        for (Recipe recipe : recipes) {
-//            if (recipe.getAppointment().getPatient().getId() == patient.getId()) {
-//                System.out.println(recipe.getAppointment().getDoctor() + " " +
-//                        recipe.getAppointment().getDateAndTime()
-//                        + " " + recipe.getDiseases());
-//            }
-//        }
-//    }
 
     public Patient inputLoginPatient(Scanner sc) {
 
@@ -152,7 +116,7 @@ public class PatientLogic {
     }
 
     public void loggedPatientOptions(Scanner sc) {
-        System.out.println("make appointment: mp");
+        System.out.println("make an appointment: mp");
         System.out.println("view your appointments: va");
         System.out.println("view your recipes: vr");
         System.out.println("quit");

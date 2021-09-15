@@ -38,10 +38,9 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment{" +
-                "patient=" + patient +
-                ", doctor=" + doctor +
-                ", dateAndTime=" + dateAndTime +
-                '}';
+        return "Appointment id=" + id +
+                ", patient: " + patient +
+                ", doctor: " + doctor +
+                ", dateAndTime= " + dateAndTime;
     }
 }
