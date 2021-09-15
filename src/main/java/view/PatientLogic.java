@@ -4,8 +4,11 @@ import model.Appointment;
 import model.Patient;
 import services.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -55,29 +58,41 @@ public class PatientLogic {
 
     public void makeAppointment(Scanner sc, Patient login) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         System.out.println("please choose the id for which doctor");
         doctorService.showAllDoctor();
         Long idChoice = sc.nextLong();
-        System.out.println("please insert a date with format dd/mm/yyyy");
-        String date = sc.next();
+        System.out.println("please insert a date with format yyyy-MM-dd HH");
+        sc.skip("\n");
+        String date = sc.nextLine().concat(":00:00");
+        System.out.println("string inserted date: "+date);
         try {
-            LocalDate localDate = LocalDate.parse(date, formatter);
-            if (localDate.isAfter(LocalDate.now())) {
+            Timestamp localDateTime = java.sql.Timestamp.valueOf(date);
+            System.out.println("local date time (timestamp)"+localDateTime);
+
+            if (localDateTime.after(Timestamp.valueOf(LocalDateTime.now()))) {
+                System.out.println("local date time (timestamp)"+localDateTime);
 
                 Appointment appointment = new Appointment(login,
                         doctorService.findById(idChoice)
-                        , localDate);
-                appointmentService.add(appointment);
-                System.out.println("appointment was successfully created");
+                        , localDateTime);
+
+                if (appointmentService.isAppointmentTaken(localDateTime, idChoice)) {
+                    System.out.println("appointment time is already taken,\n " +
+                            "try again with a new hour");
+                    makeAppointment(sc, login);
+                } else {
+                    appointmentService.add(appointment);
+                    System.out.println(appointment);
+                    System.out.println("appointment was successfully created, at time "+localDateTime);
+                }
             } else {
-                System.out.println("please insert a date after " + LocalDate.now().format(formatter) + " format dd/mm/yyyy");
+                System.out.println("please insert a date after " + Timestamp.valueOf(LocalDateTime.now()) + " format yyyy-MM-dd HH:mm:ss");
                 makeAppointment(sc, login);
 
             }
         } catch (Exception e) {
             System.err.println("wrong format for date");
+            e.printStackTrace();
             makeAppointment(sc, login);
         }
     }

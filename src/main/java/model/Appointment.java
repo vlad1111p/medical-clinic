@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name = "appointment")
 @Getter
@@ -23,9 +25,9 @@ public class Appointment {
     private Doctor doctor;
 
 
-    private LocalDate dateAndTime;
+    private Timestamp dateAndTime;
 
-    public Appointment(Patient patient, Doctor doctor, LocalDate dateAndTime) {
+    public Appointment(Patient patient, Doctor doctor, Timestamp dateAndTime) {
         this.patient = patient;
         this.doctor = doctor;
         this.dateAndTime = dateAndTime;
